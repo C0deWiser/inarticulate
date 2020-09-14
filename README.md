@@ -9,8 +9,8 @@ So Inarticulate has
 public $incrementing = false;
 ```
 
-Inarticulate Builder so extends Eloquent Builder, but it overrides just few methods — find, insert, update, delete and exists.
-So hust do not call any others — that are not applicable for Redis. 
+Inarticulate Builder extends Eloquent Builder, but it overrides just few methods — find, insert, update, delete and exists.
+So just do not call any others — that are not applicable for Redis. 
 
 As Inarticulate extends Eloquent Model your may use attributes Accessors and Mutators, castings, property guards etc.
 
