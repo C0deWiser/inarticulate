@@ -28,14 +28,20 @@ Set positive `protected $redisExpire` value to set expiration timout for Model.
 
 ## Usage
 
+To prevent Builder from resolving undefined attributes as a relations (that is not supported, you know) just define default attribute values in `$attributes` array. 
+
 ```php
 /**
  * @property mixed id
  * @property string title
+ * @property string body
  */
 class Article extneds \Codewiser\Inarticulate\Model
 {
-    
+    protected $attributes = [
+        'title' => null,
+        'body' => null
+    ];
 }
 ```
 
