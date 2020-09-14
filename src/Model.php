@@ -18,6 +18,8 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
     public function setRedisExpire( $redisExpire)
     {
         $this->redisExpire = $redisExpire;
+
+        return $this;
     }
 
     /**
