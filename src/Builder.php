@@ -20,6 +20,7 @@ class Builder extends \Illuminate\Database\Eloquent\Builder
     /**
      * Get Redis key for this Model.
      *
+     * @param $id
      * @return string
      */
     public function getRedisKey($id)
@@ -184,5 +185,19 @@ class Builder extends \Illuminate\Database\Eloquent\Builder
         $key = $this->getRedisKey($this->getModel()->getKey());
 
         return (boolean)Redis::get($key);
+    }
+
+    /**
+     * Execute the query as a "select" statement.
+     *
+     * @param  array|string  $columns
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function get($columns = ['*'])
+    {
+        // Collect all records from Redis by mask
+        $keys = Redis::keys($this->getRedisKey('*'));
+
+        return $this->findMany($keys);
     }
 }

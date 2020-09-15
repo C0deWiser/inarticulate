@@ -105,4 +105,17 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
     {
         return new Collection($models);
     }
+
+    /**
+     * Get all of the models from the database.
+     *
+     * @param  array|mixed  $columns
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function all($columns = ['*'])
+    {
+        return static::query()->get(
+            is_array($columns) ? $columns : func_get_args()
+        );
+    }
 }

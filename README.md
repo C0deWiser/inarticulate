@@ -75,3 +75,11 @@ Fearlessly use these Builder methods:
 * findOrNew
 * findMany
 * exists
+
+Get all records
+```php
+Model::all();
+// or
+Model::query()->get();
+```
+
