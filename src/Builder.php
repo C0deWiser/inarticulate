@@ -159,6 +159,12 @@ class Builder extends \Illuminate\Database\Eloquent\Builder
      */
     public function findMany($ids, $columns = ['*'])
     {
+        $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
+
+        if (empty($ids)) {
+            return $this->model->newCollection();
+        }
+
         $models = [];
         foreach ($ids as $id) {
             if ($model = $this->find($id, $columns)) {
