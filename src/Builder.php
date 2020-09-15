@@ -6,6 +6,7 @@ namespace Codewiser\Inarticulate;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 
 class Builder extends \Illuminate\Database\Eloquent\Builder
 {
@@ -25,7 +26,7 @@ class Builder extends \Illuminate\Database\Eloquent\Builder
      */
     public function getRedisKey($id)
     {
-        return md5(env('APP_KEY')) . ':' . $this->getModel()->getTable() . ':' . $id;
+        return $this->getModel()->getTable() . ':' . $id;
     }
 
 
@@ -190,13 +191,17 @@ class Builder extends \Illuminate\Database\Eloquent\Builder
     /**
      * Execute the query as a "select" statement.
      *
-     * @param  array|string  $columns
+     * @param array|string $columns
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function get($columns = ['*'])
     {
         // Collect all records from Redis by mask
-        $keys = Redis::keys($this->getRedisKey('*'));
+        $prefix = config('database.redis.options.prefix');
+        $keys = collect(Redis::keys($this->getRedisKey('*')))
+            ->map(function ($key) use ($prefix) {
+                return Str::after($key, $prefix);
+            });
 
         return $this->findMany($keys);
     }

@@ -2,7 +2,7 @@
   "name": "codewiser/inarticulate",
   "description": "Inarticulate is not Eloquent (Laravel Redis Model)",
   "type": "library",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "license": "MIT",
   "keywords": [
     "redis model"
