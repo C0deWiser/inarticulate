@@ -2,9 +2,15 @@
 
 namespace Codewiser\Inarticulate;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class Model
+ * @package Codewiser\Inarticulate
+ *
+ * @method static static|null find($id)
+ * @method static Collection|static[] findMany($ids)
+ */
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {
     protected $keyType = 'string';
@@ -26,10 +32,10 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
     /**
      * Perform a model update operation.
      *
-     * @param  Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder|Builder $query
      * @return bool
      */
-    protected function performUpdate(Builder $query)
+    protected function performUpdate(\Illuminate\Database\Eloquent\Builder $query)
     {
         // If the updating event returns false, we will cancel the update operation so
         // developers can hook Validation systems into their models and cancel this
