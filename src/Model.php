@@ -2,6 +2,7 @@
 
 namespace Codewiser\Inarticulate;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 abstract class Model extends \Illuminate\Database\Eloquent\Model
@@ -22,6 +23,59 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
         return $this;
     }
 
+    /**
+     * Perform a model update operation.
+     *
+     * @param  Builder  $query
+     * @return bool
+     */
+    protected function performUpdate(Builder $query)
+    {
+        // If the updating event returns false, we will cancel the update operation so
+        // developers can hook Validation systems into their models and cancel this
+        // operation if the model does not pass validation. Otherwise, we update.
+        if ($this->fireModelEvent('updating') === false) {
+            return false;
+        }
+
+        // First we need to create a fresh query instance and touch the creation and
+        // update timestamp on the model which are maintained by us for developer
+        // convenience. Then we will just continue saving the model instances.
+        if ($this->usesTimestamps()) {
+            $this->updateTimestamps();
+        }
+
+        // Once we have run the update operation, we will fire the "updated" event for
+        // this model instance. This will allow developers to hook into these after
+        // models are updated, giving them a chance to do any special processing.
+        $dirty = $this->getDirty();
+
+        if (count($dirty) > 0) {
+            // Redis can not emerge attributes, use full update
+            $this->setKeysForSaveQuery($query)->update($this->getAttributes());
+
+            $this->syncChanges();
+
+            $this->fireModelEvent('updated', false);
+        }
+
+        return true;
+    }
+
+    /**
+     * Reload a fresh model instance from the database.
+     *
+     * @param  array|string  $with
+     * @return static|null
+     */
+    public function fresh($with = [])
+    {
+        if (! $this->exists) {
+            return null;
+        }
+
+        return static::query()->find($this->getKey());
+    }
     /**
      * Create a new Eloquent query builder for the model.
      *
