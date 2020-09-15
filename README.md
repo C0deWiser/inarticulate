@@ -73,5 +73,6 @@ Fearlessly use these Builder methods:
 * find
 * findOrFail
 * findOrNew
+* findMany
 * exists
 * delete
