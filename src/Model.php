@@ -2,7 +2,7 @@
 
 namespace Codewiser\Inarticulate;
 
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {

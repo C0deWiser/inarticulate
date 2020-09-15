@@ -4,7 +4,7 @@
 namespace Codewiser\Inarticulate;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Redis;
 
 class Builder extends \Illuminate\Database\Eloquent\Builder
@@ -162,7 +162,7 @@ class Builder extends \Illuminate\Database\Eloquent\Builder
         $ids = $ids instanceof Arrayable ? $ids->toArray() : $ids;
 
         if (empty($ids)) {
-            return $this->model->newCollection();
+            return $this->getModel()->newCollection();
         }
 
         $models = [];
