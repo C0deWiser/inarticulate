@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Collection;
  * Class Model
  * @package Codewiser\Inarticulate
  *
- * @method static static|null find($id)
+ * @method static static find($id)
+ * @method static static findOrFail($id)
+ * @method static static findOrNew($id)
  * @method static Collection|static[] findMany($ids)
  */
 abstract class Model extends \Illuminate\Database\Eloquent\Model

@@ -75,4 +75,3 @@ Fearlessly use these Builder methods:
 * findOrNew
 * findMany
 * exists
-* delete
