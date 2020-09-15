@@ -196,13 +196,16 @@ class Builder extends \Illuminate\Database\Eloquent\Builder
      */
     public function get($columns = ['*'])
     {
+        $prefix = config('database.redis.options.prefix')
+            . $this->getModel()->getTable() . ':';
+
         // Collect all records from Redis by mask
-        $prefix = config('database.redis.options.prefix');
         $keys = collect(Redis::keys($this->getRedisKey('*')))
             ->map(function ($key) use ($prefix) {
+                // Trim prefix, left pure model keys
                 return Str::after($key, $prefix);
             });
 
-        return $this->findMany($keys);
+        return $this->findMany($keys, $columns);
     }
 }
