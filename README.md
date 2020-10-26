@@ -68,13 +68,14 @@ echo $article->title;
 
 ## Builder methods
 
-Fearlessly use these Builder methods:
+Fearlessly use these Model and Builder methods:
 
 * find
 * findOrFail
 * findOrNew
 * findMany
 * exists
+* refresh
 
 Get all records
 ```php

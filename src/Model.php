@@ -118,4 +118,24 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
             is_array($columns) ? $columns : func_get_args()
         );
     }
+
+    /**
+     * Reload the current model instance with fresh attributes from the database.
+     *
+     * @return static
+     */
+    public function refresh()
+    {
+        if (! $this->exists) {
+            return $this;
+        }
+
+        $task = static::find($this->getKey());
+
+        $this->setRawAttributes(
+            $task->getAttributes()
+        );
+
+        return $this;
+    }
 }
